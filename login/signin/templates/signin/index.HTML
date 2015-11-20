@@ -1,0 +1,45 @@
+<html lang="en">
+	<head>
+<title>Signin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <style>
+    #div1{
+      margin-top: 100px;
+    }
+     </style>
+   </head>
+	<body>
+  <div class="container" id="div1">
+  <input type="text" class="form-control" placeholder="Enter Username" id="usn"><br>
+  <input type="text"  placeholder="Enter Password" class="form-control"  id="psw"><br>
+  <input type="submit" class="btn btn-Danger"value="Submit" onclick="senddata()">
+</div>
+  <script>
+  	function senddata(){
+  			$.ajax({
+            url : "/signin/validate/", // the endpoint
+            type : "GET", // http method
+            data : {username:$("#usn").val(),
+                  password:$("#psw").val(),
+             }, // data sent with the post request
+            // handle a successful response
+            success : function(json) {
+                console.log(json); // log the console.log("success"); // another sanity check
+                $("#usn").val('');
+                $("#psw").val('');
+            },
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+  		};
+  </script>
+	</body>
+</html>
